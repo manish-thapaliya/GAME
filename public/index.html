@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maitighar Mayhem — माइतीघर महेम (Kathmandu Kombat)</title>
+  <meta name="description" content="A browser-based 2D multiplayer fighting game inspired by FightKaro / Sansad Showdown, culturally localized for Nepal. Purely fictional and satirical." />
+
+  <!-- Nepali (Devanagari) web fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Rozha+One&display=swap" rel="stylesheet" />
+
+  <!-- Modern UI: crimson red + gold (Nepali flag accents) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Phaser 3 via CDN. For offline/production builds swap to:
+       <script src="/socket.io/socket.io.js"></script> is served by the backend, and
+       Phaser can be bundled from node_modules (npm i phaser) instead of this CDN tag. -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+</head>
+
+<body>
+  <!-- ===================== LANDING / LOBBY SCREEN ===================== -->
+  <main id="landing" class="screen">
+    <div class="flag-band" aria-hidden="true"></div>
+
+    <header class="hero">
+      <h1 class="title">
+        <span class="title-en">MAITIGHAR MAYHEM</span>
+        <span class="title-ne">माइतीघर महेम</span>
+      </h1>
+      <p class="subtitle">
+        Kathmandu Kombat &middot; काठमाडौं कम्ब्याट
+        <span class="dot">&bull;</span>
+        2-Player Browser Fighting Game
+      </p>
+      <p class="stage-tag">Stage: <strong>Maitighar Mandala</strong> &mdash; माइतीघर मण्डल</p>
+    </header>
+
+    <section class="panel card">
+      <h2 class="panel-title">Play Online &nbsp;<span class="ne">अनलाइन खेलनुहोस्</span></h2>
+
+      <div class="btn-row">
+        <button id="hostBtn" class="btn btn-primary" type="button">
+          Host Room <span class="ne">कोठ बनाउनुहोस्</span>
+        </button>
+      </div>
+
+      <div class="divider"><span>OR / अथवा</span></div>
+
+      <form id="joinForm" class="join-form" autocomplete="off">
+        <label for="roomInput" class="field-label">
+          Join Room Code <span class="ne">कोठ कोड</span>
+        </label>
+        <div class="input-row">
+          <input
+            id="roomInput"
+            name="roomCode"
+            type="text"
+            inputmode="text"
+            maxlength="4"
+            placeholder="e.g. K7RM"
+            pattern="[A-Za-z0-9]{4}"
+            spellcheck="false"
+            autocapitalize="characters"
+            required />
+          <button id="joinBtn" class="btn btn-secondary" type="submit">
+            Join <span class="ne">सामेल हुनुहोस्</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="statusBox" class="status" role="status" aria-live="polite">
+        Waiting for server&hellip; <span class="ne">सेर्भर प्रतीक्षामा&hellip;</span>
+      </div>
+
+      <!-- Generated room code appears here after hosting/joining -->
+      <div id="codeBox" class="code-box hidden">
+        <span class="code-label">Room Code: <span class="ne">कोड</span></span>
+        <span id="roomCodeDisplay" class="code-value">&mdash;&mdash;&mdash;&mdash;</span>
+        <button id="copyCodeBtn" class="btn btn-mini" type="button" title="Copy code">Copy</button>
+        <p id="seatInfo" class="seat-info">Seats: 1/2 &mdash; waiting for opponent&hellip;</p>
+        <button id="startGameBtn" class="btn btn-gold hidden" type="button">
+          Enter Arena <span class="ne">अखाडामा पस्नुहोस्</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ SATIRICAL NEPALI GOVERNMENT BODY ROSTER ============ -->
+    <section class="roster card">
+      <h2 class="panel-title">
+        Government Bodies Roster <span class="ne">सरकारी निकाय सूची (व्यङ्ग्य)</span>
+      </h2>
+      <p class="roster-note">
+        Every fighter represents a fictionalised, satirical version of a Nepali state
+        institution. Player&nbsp;1 is always <em>The Veteran</em> (Crimson),
+        Player&nbsp;2 is always <em>The Youth</em> (Deep Blue).
+      </p>
+      <ul id="rosterList" class="roster-grid">
+        <li class="roster-item"><span class="roster-en">Office of the President</span><span class="roster-ne">राष्ट्रपतिको कार्यालय</span></li>
+        <li class="roster-item"><span class="roster-en">Office of the PM &amp; Council of Ministers</span><span class="roster-ne">प्रधानमन्त्री तथा मन्त्रिपरिषद्को कार्यालय</span></li>
+        <li class="roster-item"><span class="roster-en">House of Representatives</span><span class="roster-ne">प्रतिनिधि सभा</span></li>
+        <li class="roster-item"><span class="roster-en">National Assembly</span><span class="roster-ne">राष्ट्रिय सभा</span></li>
+        <li class="roster-item"><span class="roster-en">Supreme Court of Nepal</span><span class="roster-ne">नेपालको सर्वोच्च अदालत</span></li>
+        <li class="roster-item"><span class="roster-en">Election Commission of Nepal</span><span class="roster-ne">निर्वाचन आयोग, नेपाल</span></li>
+        <li class="roster-item"><span class="roster-en">Commission to Study the Flight of Aircraft (CIAAST)</span><span class="roster-ne">विमान उडान अनुसन्धान आयोग</span></li>
+        <li class="roster-item"><span class="roster-en">Attorney General&rsquo;s Office</span><span class="roster-ne">महान्यायाधिवक्ताको कार्यालय</span></li>
+        <li class="roster-item"><span class="roster-en">Nepali Army</span><span class="roster-ne">नेपाली सेना</span></li>
+        <li class="roster-item"><span class="roster-en">Nepal Police</span><span class="roster-ne">नेपाल प्रहरी</span></li>
+        <li class="roster-item"><span class="roster-en">Armed Police Force</span><span class="roster-ne">सशस्त्र प्रहरी बल, नेपाल</span></li>
+        <li class="roster-item"><span class="roster-en">Office of the Auditor General</span><span class="roster-ne">महालेखा नियन्त्रकको कार्यालय</span></li>
+        <li class="roster-item"><span class="roster-en">National Planning Commission</span><span class="roster-ne">राष्ट्रिय योजना आयोग</span></li>
+        <li class="roster-item"><span class="roster-en">Secretariat to the Government of Nepal</span><span class="roster-ne">मन्त्रिपरिषद् सचिवालय</span></li>
+        <li class="roster-item"><span class="roster-en">Language Commission</span><span class="roster-ne">भाषा आयोग</span></li>
+        <li class="roster-item"><span class="roster-en">Press Council Nepal</span><span class="roster-ne">प्रेस काउन्सिल नेपाल</span></li>
+      </ul>
+    </section>
+
+    <!-- ===================== CONTROLS REFERENCE ===================== -->
+    <section class="controls card">
+      <h2 class="panel-title">Controls &nbsp;<span class="ne">नियन्त्रण</span></h2>
+      <table class="kbd-table">
+        <thead>
+          <tr><th>Action</th><th>Key</th><th>Nepali label</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Move Left / Right</td><td><kbd>A</kbd> / <kbd>D</kbd></td><td>हिँड्नुहोस्</td></tr>
+          <tr><td>Jump</td><td><kbd>W</kbd></td><td>उफ्रनुहोस्</td></tr>
+          <tr><td>Crouch</td><td><kbd>S</kbd></td><td>झुक्नुहोस्</td></tr>
+          <tr><td>Punch</td><td><kbd>J</kbd></td><td>घुसा (मुक्का)</td></tr>
+          <tr><td>Kick</td><td><kbd>K</kbd></td><td>प्रहार (गुडा)</td></tr>
+          <tr><td>Super Move (full Prana meter)</td><td><kbd>L</kbd></td><td>महाप्रहार &mdash; पूरा प्राण</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="footer">
+      <p class="disclaimer">
+        <strong>यो खेल पूर्ण रूपमा काल्पनिक र व्यङ्गात्मक हो।</strong><br />
+        <em>This game is purely fictional and satirical.</em> No real politician, party or
+        government body is endorsed, represented or defamed.
+      </p>
+      <p class="tiny">Built with HTML5 &middot; CSS3 &middot; Phaser&nbsp;3 &middot; Node.js &middot; Express &middot; Socket.io</p>
+    </footer>
+  </main>
+
+  <!-- ===================== GAME SCREEN (Phaser mounts here) ===================== -->
+  <main id="game-screen" class="screen hidden">
+    <div id="phaser-root"></div>
+
+    <!-- DOM HUD mirrors synced state: Health (स्वास्थ्य) & Prana (प्राण) -->
+    <div class="hud hud-left">
+      <div class="hud-name" id="p1Name">Player 1 (The Veteran)</div>
+      <div class="bar-label">Health: स्वास्थ्य <span id="p1HpText">100</span></div>
+      <div class="bar hp"><div class="bar-fill" id="p1HpBar"></div></div>
+      <div class="bar-label">Prana: प्राण <span id="p1PranaText">0</span></div>
+      <div class="bar prana"><div class="bar-fill" id="p1PranaBar"></div></div>
+    </div>
+
+    <div class="hud hud-center">
+      <div class="timer" id="matchTimer">99</div>
+      <div class="round-label" id="roundLabel">Round 1</div>
+      <div class="score-label" id="scoreLabel">0 &ndash; 0</div>
+      <div class="room-code-pill">Room Code: कोड <span id="hudRoomCode">----</span></div>
+    </div>
+
+    <div class="hud hud-right">
+      <div class="hud-name" id="p2Name">Player 2 (The Youth)</div>
+      <div class="bar-label">Health: स्वास्थ्य <span id="p2HpText">100</span></div>
+      <div class="bar hp"><div class="bar-fill" id="p2HpBar"></div></div>
+      <div class="bar-label">Prana: प्राण <span id="p2PranaText">0</span></div>
+      <div class="bar prana"><div class="bar-fill" id="p2PranaBar"></div></div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <div class="game-footer">
+      <button id="leaveBtn" class="btn btn-ghost" type="button">Leave Match &nbsp;<span class="ne">बाहिर निस्कनुहोस्</span></button>
+      <button id="rematchBtn" class="btn btn-gold hidden" type="button">Rematch &nbsp;<span class="ne">फेरि लड्नुहोस्</span></button>
+      <span class="mini-disclaimer">यो खेल पूर्ण रूपमा काल्पनिक र व्यङ्गात्मक हो।</span>
+    </div>
+  </main>
+
+  <!-- Socket.io client is auto-served by the Node backend at this route -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Game logic (also exposes window.MaitiLobby used by the lobby buttons above) -->
+  <script src="game.js"></script>
+</body>
+</html>

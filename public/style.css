@@ -1,0 +1,408 @@
+/* =====================================================================
+   MAITIGHAR MAYHEM — style.css
+   Clean, modern UI with Nepali cultural accents:
+   Crimson Red (#DC143C / flag crimson #C8102E) + Gold (#D4AF37 / #F9CD3D)
+   ===================================================================== */
+
+:root {
+  --crimson:        #c8102e;   /* Nepal flag crimson */
+  --crimson-deep:   #8f0b20;
+  --crimson-light:  #ef5a72;
+  --gold:           #d4af37;   /* temple gold */
+  --gold-bright:    #f9cd3d;
+  --blue-p2:        #1e3a8a;   /* Player 2 deep blue */
+  --ink:            #16090c;
+  --paper:          #fffaf2;
+  --card:           rgba(255, 255, 255, 0.06);
+  --card-border:    rgba(212, 175, 55, 0.35);
+  --shadow:         0 10px 30px rgba(0, 0, 0, 0.45);
+  --radius:         14px;
+  --font-body:      'Mukta', 'Segoe UI', system-ui, sans-serif;
+  --font-display:   'Rozha One', 'Mukta', serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--paper);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(200, 16, 46, 0.35), transparent 60%),
+    radial-gradient(900px 500px at 90% 110%, rgba(212, 175, 55, 0.18), transparent 60%),
+    linear-gradient(160deg, #1d0509 0%, #2a0a12 45%, #170307 100%);
+  background-attachment: fixed;
+}
+
+.hidden { display: none !important; }
+
+.screen {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* ---------- Decorative crimson/gold flag band ---------- */
+.flag-band {
+  height: 10px;
+  border-radius: 6px;
+  margin-bottom: 28px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--crimson) 0 60px,
+    var(--gold) 60px 68px,
+    var(--crimson-deep) 68px 128px,
+    var(--gold-bright) 128px 136px
+  );
+  box-shadow: 0 2px 12px rgba(200, 16, 46, 0.5);
+}
+
+/* ---------- Hero ---------- */
+.hero { text-align: center; margin-bottom: 34px; }
+
+.title { line-height: 1.05; }
+.title-en {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  letter-spacing: 3px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold) 55%, #9a7718);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 6px 24px rgba(212, 175, 55, 0.25);
+}
+.title-ne {
+  display: block;
+  font-size: clamp(1.4rem, 3.4vw, 2.2rem);
+  color: var(--crimson-light);
+  margin-top: 6px;
+  text-shadow: 0 2px 10px rgba(200, 16, 46, 0.4);
+}
+.subtitle { margin-top: 12px; opacity: 0.85; font-size: 1.05rem; }
+.subtitle .dot { color: var(--gold); margin: 0 8px; }
+.stage-tag { margin-top: 8px; color: var(--gold-bright); font-size: 0.95rem; }
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 26px;
+  margin-bottom: 26px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+}
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--gold-bright);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+.ne { color: var(--crimson-light); font-weight: 600; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 26px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  color: #fff;
+}
+.btn:hover  { transform: translateY(-2px); filter: brightness(1.08); }
+.btn:active { transform: translateY(0); }
+.btn .ne { display: inline-block; margin-left: 8px; font-size: 0.85em; opacity: 0.9; color: inherit; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-deep));
+  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.45);
+}
+.btn-secondary {
+  background: linear-gradient(135deg, #2b4bb5, var(--blue-p2));
+  box-shadow: 0 6px 18px rgba(30, 58, 138, 0.45);
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, #a8842a);
+  color: #2b1a02;
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--paper);
+}
+.btn-mini {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  background: rgba(212, 175, 55, 0.18);
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  border-radius: 8px;
+}
+
+.btn-row { display: flex; gap: 14px; justify-content: center; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0;
+  color: rgba(255, 250, 242, 0.55);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+}
+
+/* ---------- Join form ---------- */
+.join-form .field-label { display: block; margin-bottom: 8px; font-weight: 600; }
+.input-row { display: flex; gap: 12px; }
+#roomInput {
+  flex: 1;
+  font-size: 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--gold-bright);
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid var(--card-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+}
+#roomInput:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25); }
+#roomInput::placeholder { color: rgba(255, 250, 242, 0.3); letter-spacing: 4px; font-weight: 400; }
+
+/* ---------- Status & room code ---------- */
+.status {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+  border-left: 4px solid var(--gold);
+  font-size: 0.95rem;
+}
+.status.ok    { border-left-color: #2fbf71; }
+.status.error { border-left-color: var(--crimson); animation: shake 0.3s; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.code-box {
+  margin-top: 18px;
+  text-align: center;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px dashed var(--gold);
+  background: rgba(212, 175, 55, 0.07);
+}
+.code-label { display: block; margin-bottom: 6px; opacity: 0.85; }
+.code-value {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 12px;
+  color: var(--gold-bright);
+  text-shadow: 0 0 18px rgba(249, 205, 61, 0.35);
+  vertical-align: middle;
+}
+.seat-info { margin: 10px 0 14px; opacity: 0.8; font-size: 0.9rem; }
+
+/* ---------- Government bodies roster ---------- */
+.roster-note { margin-bottom: 14px; opacity: 0.8; font-size: 0.92rem; }
+.roster-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+.roster-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(200, 16, 46, 0.12);
+  border: 1px solid rgba(200, 16, 46, 0.35);
+  font-size: 0.88rem;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.roster-item:hover { border-color: var(--gold); transform: translateY(-2px); }
+.roster-en { font-weight: 700; }
+.roster-ne { color: var(--gold-bright); font-size: 0.85rem; }
+
+/* ---------- Controls table ---------- */
+.kbd-table { width: 100%; border-collapse: collapse; }
+.kbd-table th, .kbd-table td {
+  text-align: left;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  font-size: 0.92rem;
+}
+.kbd-table th { color: var(--gold-bright); font-weight: 700; }
+kbd {
+  display: inline-block;
+  min-width: 26px;
+  text-align: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #1c0d10;
+  border: 1px solid var(--card-border);
+  border-bottom-width: 3px;
+  font-weight: 800;
+  color: var(--gold-bright);
+}
+
+/* ---------- Footer / disclaimer ---------- */
+.footer { text-align: center; margin-top: 10px; }
+.disclaimer {
+  display: inline-block;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: rgba(200, 16, 46, 0.15);
+  border: 1px solid rgba(200, 16, 46, 0.5);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.tiny { margin-top: 14px; font-size: 0.78rem; opacity: 0.55; }
+
+/* =====================================================================
+   GAME SCREEN (Phaser canvas + HUD overlay)
+   ===================================================================== */
+#game-screen {
+  max-width: 1300px;
+  padding-top: 16px;
+  position: relative;
+}
+
+#phaser-root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#phaser-root canvas {
+  border-radius: var(--radius);
+  border: 2px solid var(--card-border);
+  box-shadow: var(--shadow);
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: absolute;
+  top: 30px;
+  width: 300px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(10, 4, 6, 0.55);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(4px);
+  z-index: 5;
+  pointer-events: none;
+}
+.hud-left  { left: 24px; }
+.hud-right { right: 24px; text-align: right; }
+.hud-right .bar { direction: rtl; }
+
+.hud-name { font-weight: 800; margin-bottom: 6px; letter-spacing: 0.3px; }
+.hud-left .hud-name  { color: var(--crimson-light); }
+.hud-right .hud-name { color: #7ea2ff; }
+
+.bar-label { font-size: 0.72rem; opacity: 0.85; margin: 4px 0 2px; }
+
+.bar {
+  height: 14px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.bar.hp    { height: 18px; }
+.bar-fill {
+  height: 100%;
+  width: 100%;
+  transition: width 0.18s ease-out;
+}
+.hp .bar-fill    { background: linear-gradient(90deg, #2fbf71, #ffd23f 55%, var(--crimson)); }
+.prana .bar-fill { background: linear-gradient(90deg, #6fd6ff, #b48cff); }
+.prana.full .bar-fill { background: linear-gradient(90deg, var(--gold-bright), var(--gold)); animation: pulse 0.9s infinite alternate; }
+
+@keyframes pulse { from { filter: brightness(1); } to { filter: brightness(1.5); } }
+
+/* Center HUD */
+.hud-center {
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  text-align: center;
+  min-width: 190px;
+}
+.timer {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold-bright);
+  line-height: 1;
+}
+.round-label { font-size: 0.85rem; margin-top: 2px; }
+.score-label { font-size: 0.95rem; font-weight: 800; color: var(--paper); }
+.room-code-pill {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--gold);
+  display: inline-block;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  padding: 18px 34px;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  background: rgba(10, 4, 6, 0.8);
+  border: 2px solid var(--gold);
+  color: var(--gold-bright);
+  z-index: 10;
+  animation: pop 0.25s ease-out;
+  pointer-events: none;
+  white-space: nowrap;
+}
+@keyframes pop { from { transform: translate(-50%, -50%) scale(0.6); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+
+/* ---------- Game footer ---------- */
+.game-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.mini-disclaimer { font-size: 0.75rem; opacity: 0.6; color: var(--crimson-light); }
+
+/* ---------- Responsive tweaks (desktop-first) ---------- */
+@media (max-width: 1100px) {
+  .hud { width: 240px; }
+  .hud-left { left: 10px; }
+  .hud-right { right: 10px; }
+}
